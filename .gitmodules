@@ -1,0 +1,3 @@
+[submodule "flarum"]
+	path = flarum
+	url = git@github.com:flarum/flarum.git
