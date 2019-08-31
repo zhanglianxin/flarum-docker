@@ -12,6 +12,8 @@ services:
             - "$PWD/flarum:/var/www/html"
         restart: always
         container_name: "flarum-nginx"
+        networks:
+            - flarum-net
     php-fpm:
         build:
             context: ./
@@ -23,6 +25,8 @@ services:
             - "$PWD/flarum:/var/www/html"
         restart: always
         container_name: "flarum-php-fpm"
+        networks:
+            - flarum-net
     composer:
         build: ./composer
         image: composer:mirror
@@ -33,6 +37,8 @@ services:
         command: "composer require csineneo/lang-simplified-chinese flagrow/upload:*"
         restart: on-failure
         container_name: "flarum-composer"
+        networks:
+            - flarum-net
     mysql:
         build: ./mysql
         image: mysql:flarum
@@ -49,3 +55,7 @@ services:
             - "$PWD/mysql/dump:/opt/dump"
         restart: always
         container_name: "flarum-mysql"
+        networks:
+            - flarum-net
+networks:
+    flarum-net:
