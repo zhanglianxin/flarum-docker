@@ -10,9 +10,8 @@ services:
         volumes:
             - "$PWD/nginx/default.conf:/etc/nginx/conf.d/default.conf"
             - "$PWD/flarum:/var/www/html"
-        links:
-            - php-fpm
-        # container_name: "flarum-nginx"
+        restart: always
+        container_name: "flarum-nginx"
     php-fpm:
         build:
             context: ./
@@ -22,7 +21,8 @@ services:
             - "9000"
         volumes:
             - "$PWD/flarum:/var/www/html"
-        # container_name: "flarum-php-fpm"
+        restart: always
+        container_name: "flarum-php-fpm"
     composer:
         build: ./composer
         image: composer:mirror
@@ -31,7 +31,8 @@ services:
         volumes:
             - "$PWD/flarum:/var/www/html"
         command: "composer require csineneo/lang-simplified-chinese flagrow/upload:*"
-        # container_name: "flarum-composer"
+        restart: on-failure
+        container_name: "flarum-composer"
     mysql:
         build: ./mysql
         image: mysql:flarum
@@ -46,4 +47,5 @@ services:
         volumes:
             - "$PWD/mysql/data:/var/lib/mysql"
             - "$PWD/mysql/dump:/opt/dump"
-        # container_name: "flarum-mysql"
+        restart: always
+        container_name: "flarum-mysql"
